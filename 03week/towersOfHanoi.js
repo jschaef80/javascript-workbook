@@ -20,10 +20,8 @@ function printStacks() {
 }
 
 function isLegal(startArray, endArray) {
-  // Your code here
   let startLength = startArray.length-1;
   let endLength = endArray.length-1;
-  
 
   if (endArray[endLength] == undefined){
     return true;
@@ -33,13 +31,9 @@ function isLegal(startArray, endArray) {
     return false;
   }
   
-  // cannot put bigger piece on smaller piece
-  // can only put a piece on top of another piece
-  
 }
 
 function movePiece(startStack, endStack) {
-  // Your code 
     
     let startLength = stacks[startStack].length;
     let endLength = stacks[endStack].length;
@@ -47,9 +41,6 @@ function movePiece(startStack, endStack) {
     
   stacks[startStack].pop(piece)
   stacks[endStack].push(piece)
-  // select which tower to pull game piece from
-  // select which tower to place game piece in
-  // 
 
 }
 
@@ -63,7 +54,6 @@ stacks = {
 }
 
 function checkForWin() {
-  // Your code here
   if (stacks.c[0] == 4 && stacks.c[1] == 3 && stacks.c[2] == 2 && stacks.c[3] == 1){
     console.log("winner"); 
     resetGame();
@@ -71,15 +61,13 @@ function checkForWin() {
 }
 
 function towersOfHanoi(startStack, endStack) {
-  // Your code here
 
   //Legality check
   let legal = isLegal(stacks[startStack], stacks[endStack])
   if(legal){
     movePiece(startStack, endStack)
   }
-  
-  //check for win
+
   checkForWin();
 }
 
