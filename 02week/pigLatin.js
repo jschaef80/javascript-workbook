@@ -1,4 +1,4 @@
-'use strict';
+'use wordict';
 
 const assert = require('assert');
 const readline = require('readline');
@@ -8,12 +8,32 @@ const rl = readline.createInterface({
 });
 
 
-function pigLatin(word) {
 
-  // Your code here
+function pigLatin(word){
+  function checkVowels(element){
+    let vowels = ['a', 'e', 'i','o','u']
+    let passed = false; 
+    for(let v of vowels){
+      v === element ? passed = true : null;
+    }
+    return passed; 
+  }
+
+  let vowelIndex = word.split('').findIndex(checkVowels) // returns the index of the first vowel
+
+  let pigged = word;
+
+  // if first letter is a vowel 
+  vowelIndex === 0 ? pigged = word + 'way' :
+  // if the first two letters are consonants
+  vowelIndex > 1 || vowelIndex == -1 ? pigged = word.slice(2) + word.slice(0, 2) + 'ay' : 
+  // if the first letter is a consonant and the second letter is a vowel
+  vowelIndex === 1 ? pigged = word.slice(1) + word[0] + 'ay' : null
+  
+
+  return pigged; 
 
 }
-
 
 function getPrompt() {
   rl.question('word ', (answer) => {
@@ -21,7 +41,6 @@ function getPrompt() {
     getPrompt();
   });
 }
-
 // Tests
 
 if (typeof describe === 'function') {
