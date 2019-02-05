@@ -46,13 +46,11 @@ do {
 } while (digit < 1000);
 
 // When is a for loop better than a while loop?
-
-
-// How is the readability of the code affected?
-
+    // A for loop runs "n" times but a while loop runs until a certain condition becomes false. If the initial condition is false, the while loop wont run at all. So if your condition is initially false, a for loop is better.
 
 // What is the difference between a for loop and a for...in loop?
-
+    // A for loop repeats until a specified condition evaluates to false.
+    //The for...in statement iterates a specified variable over all the enumerable properties of an object. For each distinct property, JavaScript executes the specified statements.
 
 // What is the difference between a while loop and a do...while loop?
-
+    // The do...while statement repeats until a specified condition evaluates to false. A while statement executes its statements as long as a specified condition evaluates to true. 
