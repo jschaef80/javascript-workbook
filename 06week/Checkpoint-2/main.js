@@ -57,30 +57,25 @@ const redTeam = []
 //class creating template for each players stats
 
 class Player {
-  constructor(id, name, age){
+  constructor(id, name, age, player){
     this.id = id;
     this.name = name;
     this.age = age;
+    this.player = player;
   }
 }
 
 class BlueTeammate extends Player {
-  constructor(id, name, age){
-    super(color, mascot)
-    this.id = id;
-    this.name = name;
-    this.age = age;
+  constructor(id, name, age, player, color, mascot){
+    super(id, name, age, player);
     this.color = color;
     this.mascot = mascot;
   }
 }
 
 class RedTeammate extends Player {
-  constructor(id, name, age){
-    super(color, mascot)
-    this.id = id;
-    this.name = name;
-    this.age = age;
+  constructor(id, name, age, player, color, mascot){
+    super(id, name, age, player);
     this.color = color;
     this.mascot = mascot;
   }
@@ -103,7 +98,7 @@ const listPeopleChoices = () => {
 const makePlayer = (id) => {
   for(let i = 0; i < arrOfPeople.length; i++){
     if(id === arrOfPeople[i].id){
-      let player = new Player(arrOfPeople[i].id, arrOfPeople[i].name, arrOfPeople[i].age)
+      let player = new Player(arrOfPeople[i].id, arrOfPeople[i].name, arrOfPeople[i].age, "player")
       listOfPlayers.push(player);
       arrOfPeople.splice(i, 1);
       listPeopleChoices();
@@ -134,15 +129,16 @@ const playerListUpdate = () => {
   })
 }
 
-const createRedPlayer = (id)  => {
+const createRedPlayer = (id)  => { 
   for(let i = 0; i < listOfPlayers.length; i++){
-    if(id === arrOfPeople[i].id){
-      let player = new Player(arrOfPeople[i].id, arrOfPeople[i].name, arrOfPeople[i].age)
-      listOfPlayers.push(player);
-      arrOfPeople.splice(i, 1);
+    if(id === listOfPlayers[i].id){
+      let redPlayer = new RedTeammate(listOfPlayers[i].id, listOfPlayers[i].name, listOfPlayers[i].age, listOfPlayers[i].player, "red", "combat wombats")
+      redTeam.push(redPlayer);
+      listOfPlayers.splice(i, 1);
       listPeopleChoices();
-      console.log(listOfPlayers, arrOfPeople)
+      console.log(listOfPlayers, redTeam)
       playerListUpdate();
+      addToTeam();
     } 
   }
 };
@@ -150,12 +146,30 @@ const createRedPlayer = (id)  => {
 const createBluePlayer  = (id)  => {
   for(let i = 0; i < listOfPlayers.length; i++){
     if(id === listOfPlayers[i].id){
-      let player = new Player(listOfPlayers[i].id, listOfPlayers[i].name, listOfPlayers[i].age)
-      listOfPlayers.push(player);
+      let bluePlayer = new BlueTeammate(listOfPlayers[i].id, listOfPlayers[i].name, listOfPlayers[i].age, listOfPlayers[i].player, "blue", "fat cats")
+      blueTeam.push(bluePlayer);
       listOfPlayers.splice(i, 1);
       listPeopleChoices();
-      console.log(listOfPlayers, listOfPlayers)
+      console.log(listOfPlayers, blueTeam)
       playerListUpdate();
+      addToTeam();
     } 
   }
 };
+
+const addToTeam = () => {
+  const blueList = document.getElementById("blue");
+  const redList = document.getElementById("red");
+  blueList.innerHTML = "";
+  redList.innerHTML = "";
+  blueTeam.map(person => {
+    const li = document.createElement("li");
+    li.appendChild(document.createTextNode(person.name + " - " + person.id));
+    blueList.append(li);
+  })
+  redTeam.map(person => {
+    const li = document.createElement("li");
+    li.appendChild(document.createTextNode(person.name + " - " + person.id));
+    redList.append(li);
+  })
+}
