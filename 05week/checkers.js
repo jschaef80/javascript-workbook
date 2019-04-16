@@ -7,15 +7,20 @@ const rl = readline.createInterface({
   output: process.stdout
 });
 
-
-function Checker() {
-  // Your code here
+class Checker {
+  constructor(color){
+    if (color === "white") {
+      this.symbol = String.fromCharCode(0x125CF)}
+    else {this.symbol = String.fromCharCode(0x125CB)}
+  }
 }
 
 class Board {
   constructor() {
     this.grid = []
+    this.checkers  = []
   }
+
   // method that creates an 8x8 array, filled with null values
   createGrid() {
     // loop to create the 8 rows
@@ -27,6 +32,36 @@ class Board {
       }
     }
   }
+
+  createCheckers(){
+    //creates checkers starting position
+    const whitePositions = [
+      [0, 1], [0, 3], [0, 5], [0, 7],
+      [1, 0], [1, 2], [1, 4], [1, 6],
+      [2, 1], [2, 3], [2, 5], [2, 7]];
+
+    const blackPositions = [
+      [5, 0], [5, 2], [5, 4], [5, 6],
+      [6, 1], [6, 3], [6, 5], [6, 7],
+      [7, 0], [7, 2], [7, 4], [7, 6]];
+
+    for (let i=0; i<12; i++){
+      const whiteRow = whitePositions[i][0];
+      const whiteColumn = whitePositions[i][1];
+      const whiteChecker = new Checker('white');
+      this.checkers.push(whiteChecker);
+      this.grid[whiteRow][whiteColumn] = whiteChecker;
+    }
+
+    for (let i=0; i<12; i++){
+      const blackRow = blackPositions[i][0];
+      const blackColumn = blackPositions[i][1];
+      const blackChecker = new Checker('black');
+      this.checkers.push(blackChecker);
+      this.grid[blackRow][blackColumn] = blackChecker;
+    }
+  }
+
   viewGrid() {
     // add our column numbers
     let string = "  0 1 2 3 4 5 6 7\n";
@@ -52,7 +87,17 @@ class Board {
     console.log(string);
   }
 
-  // Your code here
+  selectChecker(start, end) {
+    let checker = this.grid[start[0]][start[1]];
+    this.grid[end[0]][end[1]] = checker;
+    this.grid[start[0]][start[1]] = ' ';
+  }
+  killChecker(position){
+       //moves killed piece to unused space
+    this.grid[position[0]][position[1]] = ''
+    let removeChecker = this.checkers.indexOf(this.grid[position[0]][position[1]])
+    this.checkers.splice(removeChecker,1);
+  }
 }
 
 class Game {
@@ -61,6 +106,16 @@ class Game {
   }
   start() {
     this.board.createGrid();
+    this.board.createCheckers();
+  }
+  moveChecker(start, end){
+    this.board.selectChecker(start, end);
+    if ((Math.abs(start[0]-end[0])) === 2){
+      let newRow = ((parseFloat(start[0])+parseFloat(end[0]))/2);
+      let newColumn = ((parseFloat(start[1])+parseFloat(end[1]))/2);
+      let newPosition = [newRow,newColumn]
+      this.board.killChecker(newPosition);
+    }
   }
 }
 
